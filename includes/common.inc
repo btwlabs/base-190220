@@ -3666,7 +3666,7 @@ function drupal_build_css_cache($css) {
     $uri = $map[$key];
   }
 
-  if (empty($uri) || !file_exists($uri)) {
+  if (empty($uri) || !drupal_aggregated_file_exists($uri)) {
     // Build aggregate CSS file.
     foreach ($css as $stylesheet) {
       // Only 'file' stylesheets can be aggregated.
@@ -5069,6 +5069,19 @@ function drupal_add_tabledrag($table_id, $action, $relationship, $group, $subgro
   drupal_add_js($settings, 'setting');
 }
 
+function drupal_aggregated_file_exists($uri) {
+  if (function_exists('apc_exists')) {
+    $exists = apc_exists('file_exists_' . $uri);
+    if (!$exists && file_exists($uri)) {
+      $exists = TRUE;
+      apc_store('file_exists_' . $uri, TRUE, 86400);
+    }
+    return $exists;
+  }
+  // If no APC available, fall back to default.
+  return file_exists($uri);
+}
+
 /**
  * Aggregates JavaScript files into a cache file in the files directory.
  *
@@ -5108,7 +5121,7 @@ function drupal_build_js_cache($files) {
     $uri = $map[$key];
   }
 
-  if (empty($uri) || !file_exists($uri)) {
+  if (empty($uri) || !drupal_aggregated_file_exists($uri)) {
     // Build aggregate JS file.
     foreach ($files as $path => $info) {
       if ($info['preprocess']) {
@@ -5116,6 +5129,10 @@ function drupal_build_js_cache($files) {
         $contents .= file_get_contents($path) . ";\n";
       }
     }
+
+    // Allow modules to act on the js_cache before writing to disk.
+    drupal_alter('js_cache', $contents);
+
     // Prefix filename to prevent blocking by firewalls which reject files
     // starting with "ad*".
     $filename = 'js_' . drupal_hash_base64($contents) . '.js';
@@ -5240,13 +5257,6 @@ function drupal_get_private_key() {
  * @see drupal_get_hash_salt()
  */
 function drupal_get_token($value = '') {
-  // For mixed HTTP(S) sessions, use a constant identifier so that tokens can be shared between protocols.
-  if (variable_get('https', FALSE) && $GLOBALS['is_https'] && isset($_COOKIE[substr(session_name(), 1)])) {
-    $session_id = $_COOKIE[substr(session_name(), 1)];
-  }
-  else {
-    $session_id = session_id();
-  }
   return drupal_hmac_base64($value, session_id() . drupal_get_private_key() . drupal_get_hash_salt());
 }
 
