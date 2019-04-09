@@ -1,0 +1,16 @@
+name = Facebook Wall
+description = Get the current wall post details of the user.
+core = 7.x
+package = Facebook
+configure = admin/config/services/facebook_wall
+stylesheets[all][] = css/facebook_wall.css
+
+; Tests.
+files[] = tests/FacebookWallBaseTestCase.test
+files[] = tests/FacebookWallAdminTestCase.test
+
+; Information added by Drupal.org packaging script on 2019-02-16
+version = "7.x-1.10"
+core = "7.x"
+project = "facebook_wall"
+datestamp = "1550348886"

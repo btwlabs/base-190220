@@ -1,0 +1,71 @@
+Facebook Wall 7.x-1.10, 2019-02-16
+----------------------------------
+#2975192 by DamienMcKenna: Unknown function _facebook_wall_page_info_array.
+#2978696 by DamienMcKenna: Refactor tests to use a base class.
+#2981062 by DamienMcKenna: Improve basic test coverage for settings page.
+#3013536 by DamienMcKenna: Error in _facebook_wall_graph_api_content() when
+  Facebook connection doesn't work.
+#2988440 by DamienMcKenna: Added test coverage for the admin form.
+
+
+Facebook Wall 7.x-1.9, 2018-05-27
+---------------------------------
+By DamienMcKenna: Fixed all file permissions.
+#2658168 by neeravbm: Typo in facebook_wall.info.
+#2868659 by hiramanpatil: Unable to get long term access token.
+#2239385 by DamienMcKenna: Add more logging to help identify problems connecting
+  to Facebook.
+#2770631 by DuaelFr, hiramanpatil: Facebook API version cannot be changed
+  through UI.
+#2973451 by DamienMcKenna: Add a CHANGELOG.txt file.
+#2530804 by DamienMcKenna, Haza, JoanQM: Notice: Undefined property: stdClass::
+  $type in include() - API out of date.
+#2973448 by DamienMcKenna: Add some initial test coverage.
+#2954076 by DamienMcKenna: Clean up the codebase.
+#2973527 by DamienMcKenna: Improve hook_uninstall().
+#2973556 by DamienMcKenna: Update README.txt file.
+
+
+Facebook Wall 7.x-1.8, 2015-05-15
+---------------------------------
+By vineet.osscube: Remove facebook_wall.tpl.php as this was renamed as
+  facebook-wall.tpl.php.
+
+
+Facebook Wall 7.x-1.7, 2015-05-15
+---------------------------------
+#2223295 by vineet.osscube: Don't display errors when access key needs renewing.
+#2389315 by joestewart: Simplify template override.
+#2303375 by agiron, Epoxyde: Photos not displaying in posts.
+
+
+Facebook Wall 7.x-1.6, 2014-03-21
+---------------------------------
+#2138283 by vineet.osscube: Facebook change video in his source code so I have
+  fixed this.
+By vineet.osscube: Implement html 5 video player for fb videos.
+
+
+Facebook Wall 7.x-1.5, 2014-03-07
+---------------------------------
+Bug requests:
+#2207675: Notice on each page request - $count undefined.
+Feature requests:
+#2099571 by intrafusion: Replace CURL requests with drupal_http_request().
+#2176283/#2097375/#2141407/#2110221/#2180685/#2122791 by vineet.osscube: Reset
+  Token functionality.
+
+
+Facebook Wall 7.x-1.8, 2013-08-03
+---------------------------------
+Feature request: autoplay
+
+
+Facebook Wall 7.x-1.8, 2013-08-02
+---------------------------------
+Misc bug fixes.
+
+
+Facebook Wall 7.x-1.0, 2013-04-19
+---------------------------------
+Initial release.

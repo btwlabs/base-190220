@@ -1,0 +1,81 @@
+<?php
+
+/**
+ * @file
+ * Test admin functionality of Facebook Wall.
+ */
+
+/**
+ * Test admin functionality of Facebook Wall.
+ */
+class FacebookWallAdminTestCase extends FacebookWallBaseTestCase {
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Facebook Wall admin',
+      'description' => 'Confirm that the admin functionality works.',
+      'group' => 'facebook_wall',
+    );
+  }
+
+  /**
+   * Check the main admin form.
+   */
+  public function testSettings() {
+    // Load the front page.
+    $this->drupalGet('admin/config/services/facebook_wall');
+    $this->assertResponse(200);
+
+    // The first fieldset has three fields, a legend and description.
+    $this->assertText('APP Setting');
+    $this->assertText('In order to get facebook wall post, you had to first enter your APP Key and App Secret Key to get a valid a Access token of FB API.');
+    $this->assertFieldByName('facebook_wall_app_id');
+    $this->assertFieldByName('facebook_wall_app_secret');
+    $this->assertFieldByName('facebook_wall_api_version', 'v2.9');
+
+    // The second fieldset has one field, a legend and description.
+    $this->assertText('Page or User Profile');
+    $this->assertText('In order to get facebook wall post, you had to first need to have a Access token.');
+    $this->assertFieldByName('facebook_wall_page_url', 'me');
+
+    // The third fieldset has a legend, a description and some fields.
+    $this->assertText('Wall Content settings');
+    $this->assertText('In order to get facebook wall post, you had to first need to have a Access token.');
+    $this->assertFieldByName('facebook_wall_menu_name', 'Facebook Wall Post');
+    $this->assertFieldByName('facebook_wall_post_type_link');
+    $this->assertFieldByName('facebook_wall_post_type_photo');
+    $this->assertFieldByName('facebook_wall_post_type_status');
+    $this->assertFieldByName('facebook_wall_post_type_video');
+    $this->assertFieldByName('facebook_wall_post_limit', 10);
+    $this->assertFieldByName('facebook_wall_width_option');
+    $this->assertFieldByName('facebook_wall_width_size_relative', 100);
+    $this->assertFieldByName('facebook_wall_width_size');
+    $this->assertFieldByName('facebook_wall_older_post_button');
+    $this->assertFieldByName('facebook_wall_post_view');
+    $this->assertFieldByName('facebook_wall_autoplay_video');
+    $this->assertFieldByName('facebook_wall_message_show');
+
+    $edit = array();
+    $this->drupalPost(NULL, $edit, 'Save configuration');
+    $this->assertResponse(200);
+    $this->assertText('App ID/ API Key field is required.');
+    $this->assertText('App Secret Key field is required.');
+    $this->assertNoText('The configuration options have been saved.');
+
+    // Submit some values in the form.
+    $edit = array(
+      'facebook_wall_app_id' => 'mango',
+      'facebook_wall_app_secret' => 'watermelon',
+      'facebook_wall_api_version' => 'v2.12',
+    );
+    $this->drupalPost(NULL, $edit, 'Save configuration');
+    $this->assertResponse(200);
+
+    // Make sure the form submitted correctly.
+    $this->assertText('The configuration options have been saved.');
+  }
+
+}

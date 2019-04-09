@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * @file
+ * Install, uninstall and update scripts for Facebook Wall.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function facebook_wall_install() {
+  // Default value of some custom varibles.
+  variable_set('facebook_wall_menu_name', 'Facebook Wall Post');
+  variable_set('facebook_wall_older_post_button', 0);
+  variable_set('facebook_wall_page_url', 'me');
+  variable_set('facebook_wall_post_limit', 10);
+  variable_set('facebook_wall_post_type_link', 1);
+  variable_set('facebook_wall_post_type_photo', 1);
+  variable_set('facebook_wall_post_type_status', 1);
+  variable_set('facebook_wall_post_type_video', 1);
+  variable_set('facebook_wall_post_view', 1);
+  variable_set('facebook_wall_width_option', 'relative-width');
+  variable_set('facebook_wall_width_size', '550');
+  variable_set('facebook_wall_width_size_relative', '100');
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function facebook_wall_uninstall() {
+  // Removing all custom varible.
+  variable_del('facebook_wall_menu_name');
+  variable_del('facebook_wall_older_post_button');
+  variable_del('facebook_wall_page_url');
+  variable_del('facebook_wall_post_limit');
+  variable_del('facebook_wall_post_type_link');
+  variable_del('facebook_wall_post_type_photo');
+  variable_del('facebook_wall_post_type_status');
+  variable_del('facebook_wall_post_type_video');
+  variable_del('facebook_wall_post_view');
+  variable_del('facebook_wall_width_option');
+  variable_del('facebook_wall_width_size');
+  variable_del('facebook_wall_width_size_relative');
+}
+
+/**
+ * Implementations of hook_update_N().
+ */
+
+/**
+ * Rebuild the menu cache.
+ */
+function facebook_wall_update_7100() {
+  variable_set('menu_rebuild_needed', TRUE);
+}
