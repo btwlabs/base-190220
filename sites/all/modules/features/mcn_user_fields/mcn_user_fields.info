@@ -1,0 +1,14 @@
+name = MCN User Fields
+description = Add User Fields
+core = 7.x
+package = MCN Features
+version = 7.x-1.0
+project = mcn_user_fields
+dependencies[] = features
+dependencies[] = text
+features[features_api][] = api:2
+features[field_base][] = field_first_name
+features[field_base][] = field_last_name
+features[field_instance][] = user-user-field_first_name
+features[field_instance][] = user-user-field_last_name
+project status url = http://features.devmcn.com/fserver

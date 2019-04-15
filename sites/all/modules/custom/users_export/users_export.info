@@ -1,0 +1,7 @@
+; $Id$
+name = Users Export
+description = Export your users to a flat file.
+package = Other
+core = 7.x
+
+; version 7.x-1.1 because that branch can't be specified in a download.

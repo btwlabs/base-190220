@@ -1,0 +1,71 @@
+<?php
+
+define('MCN_INSTAGRAM_IMG_PREVIEW', 'preview');
+define('MCN_INSTAGRAM_IMG_FULL', 'full');
+
+module_load_include('inc', 'mcn_instagram', 'include/api');
+
+/**
+ * Implementation of hook_perm
+ */
+function mcn_instagram_permission() {
+  return array(
+    'mcn_instagram admin' => array(
+      'title' => t('Administer Instagram API settings'),
+      'description' => t('Allows a user to configure major Instagram settings: API and integration keys, hashtags, etc.'),
+     ),
+    'mcn_instagram moderate' => array(
+      'title' => t('Moderate Instagram Photos'),
+      'description' => t('Allows a user to moderate individual Instagram photos'),
+    ),
+  );
+} // hook_permission
+
+/**
+ * Implementation of hook_menu
+ */
+function mcn_instagram_menu() {
+  return array(
+    'admin/config/instagram/settings' => array(
+      'title' => 'Instagram API Settings',
+      'description' => 'Configure your Instagram settings',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('mcn_instagram_admin'),
+      'access arguments' => array('mcn_instagram admin'),
+      'file' => 'include/admin.inc',
+      'type' => MENU_NORMAL_ITEM,
+    ),
+    'admin/config/instagram' => array(
+      'title' => 'Instagram Moderation',
+      'description' => 'Moderate submissions to the photo contest',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('mcn_instagram_moderate'),
+      'access arguments' => array('mcn_instagram moderate'),
+      'file' => 'include/moderate.inc',
+      'type' => MENU_NORMAL_ITEM,
+    ),
+  );
+} // hook_menu
+
+/**
+ * Implementation of hook_theme
+ */
+function mcn_instagram_theme() {
+  return array(
+    'mcn_instagram_img' => array(
+      'variables' => array('node' => NULL, 'mode' => MCN_INSTAGRAM_IMG_PREVIEW),
+      'file' => 'theme/mcn_instagram.theme.inc',
+      'template' => 'theme/mcn_instagram_img',
+    ),
+  );
+} // hook_theme
+
+/**
+ * Implementation of hook_cron
+ */
+function mcn_instagram_cron() {
+  module_load_include('inc', 'mcn_instagram', 'include/cron');
+  module_load_include('inc', 'mcn_instagram', 'include/fetch');
+  mcn_instagram_update_subscription();
+  mcn_instagram_cleanup();
+} // hook_cron

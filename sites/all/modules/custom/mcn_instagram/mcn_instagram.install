@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * Implementation of hook_install
+ */
+function mcn_instagram_install() {
+  module_load_include('inc', 'mcn_instagram', 'include/content.instagram');
+  try {
+    if (!in_array('instagram_photo', node_type_get_names())) {
+      $type = mcn_instagram_type_instagram();
+      node_type_save($type);
+    } // if instagram_photo type doesn't exist yet
+    else { throw new Exception('instagram_photo type already exists'); }
+    foreach (mcn_instagram_fields_instagram() AS $field_name => $field) {
+      if (field_info_field($field_name)) {
+        drupal_set_message(st('The @f field already exists. Attempting to use it anyway.', array('@f' => $field_name)), 'warning');
+      } else {
+        field_create_field($field['field']);
+      }
+      $instance = $field['instance'] + array(
+        'field_name' => $field_name,
+        'entity_type' => 'node',
+        'bundle' => 'instagram_photo', 
+      );
+      if (!field_create_instance($instance)) {
+        throw new Exception(st('Could not attach @f field.', array('@f' => $field_name)));
+      }
+    } // foreach field_name=>field in mcn_instagram_field_instagram_descriptions
+  } catch (Exception $e) {
+    drupal_set_message(
+      st(
+        'The "Instagram Photo" type could not be created because "@err". The mcn_instagram module will not function correctly',
+        array('@err' => $e->getMessage())
+      ),
+      'error'
+    );
+  } // try/catch
+} // hook_install
+
+/**
+ * Implementation of hook_uninstall
+ */
+function mcn_instagram_uninstall() {
+  node_type_delete('instagram_photo');
+} // hook_uninstall

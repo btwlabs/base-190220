@@ -1,0 +1,6 @@
+; $Id$
+name = MCN Instagram Feed Module
+description = Pull in photos from Instagram to embed in a feed 
+package = "MCN"
+core = 7.x
+version=7.x-1.0
